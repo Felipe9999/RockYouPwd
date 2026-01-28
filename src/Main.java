@@ -405,6 +405,8 @@ public class Main {
             "f7f95e46a75b616c94d31cdb623e2e05bff82dae1e5e602ed2f0e9f0c718d852",
             "f7ca254a1ac6bbabec4ecfe50911783036a24c20758742308d9f778aff38869f"
         ));
+        System.out.println("Starting...");
+        long startTime = System.currentTimeMillis();
         for (int i = 0; i < rockyou.length; i++) {
             for (int j = 1995; j < 2027; j++) {
                 String testpwd = rockyou[i] + j + "*";
@@ -415,6 +417,8 @@ public class Main {
                 }
             }
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println("Finished. (took "+((float)(endTime-startTime))/1000+" seconds)");
         if(!hashes.isEmpty()){
             System.out.println("Some hashes were not found:");
             for (int i = 0; i < hashes.size(); i++) {
@@ -425,7 +429,7 @@ public class Main {
     }
     public static String hash(String texto){
         // ESTE CÓDIGO NO SE DEBE TOCAR
-        MessageDigest digest = null;
+        MessageDigest digest;
         try {
             digest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
