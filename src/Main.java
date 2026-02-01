@@ -1,7 +1,6 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -371,7 +370,7 @@ public class Main {
         "china", "567890", "1princess", "terry", "pangga", "klapaucius", "gemma", "froggie",
         "felix", "washington", "reading", "qqqqqq", "pinkgirl"
         //Contienen palabras como: pollito, papas, pollitoconpapas, kfc, chicken, pollo, pollocampero, apollo.
-        , "pollito", "papas", "pollitoconpapas", "kfc", "chicken", "pollo", "pollocampero", "apollo"
+        , "pollito", "papas", "pollitoconpapas", "kfc", "chicken", "pollo", "pollocampero", "apollo",
 };
     public static void main(String[] args) {
         ArrayList<String> hashes = new ArrayList<>(List.of(
@@ -417,16 +416,48 @@ public class Main {
                 }
             }
         }
+        if(!hashes.isEmpty()){
+            long rockYouTime = System.currentTimeMillis();
+            System.out.println("Finished dictionary attack. (took "+((float)(rockYouTime-startTime))/1000+" seconds)");
+            System.out.println("Initializing brute force...");
+        }
+        int i = 0;
+        while (!hashes.isEmpty()){
+            String letters = toLetters(i);
+            for (int j = 1995; j < 2027; j++) {
+                String testpwd = letters + j + "*";
+                //System.out.println(testpwd);
+                String hashedpwd = hash(testpwd);
+                if(hashes.contains(hashedpwd)){
+                    System.out.println("Hash "+hashedpwd+" found, its password is: "+testpwd);
+                    hashes.remove(hashedpwd);
+                }
+            }
+            i++;
+        }
         long endTime = System.currentTimeMillis();
         System.out.println("Finished. (took "+((float)(endTime-startTime))/1000+" seconds)");
-        if(!hashes.isEmpty()){
+        /*if(!hashes.isEmpty()){
             System.out.println("Some hashes were not found:");
-            for (int i = 0; i < hashes.size(); i++) {
-                System.out.println(hashes.get(i));
+            for (int j = 0; j < hashes.size(); j++) {
+                System.out.println(hashes.get(j));
             }
         }
-        else System.out.println("All hashes were found");
+        else System.out.println("All hashes were found");*/
+        System.out.println("All hashes were found");
     }
+
+    private static String toLetters(int i) {
+        String myStr = "";
+        while (i > 0){
+            int residue = i%27;
+            myStr += (char) (residue+96);
+            i -= residue;
+            i = i/27;
+        }
+        return myStr;
+    }
+
     public static String hash(String texto){
         // ESTE CÓDIGO NO SE DEBE TOCAR
         MessageDigest digest;
