@@ -411,7 +411,11 @@ public class Main {
                 String testpwd = rockyou[i] + j + "*";
                 String hashedpwd = hash(testpwd);
                 if(hashes.contains(hashedpwd)){
-                    System.out.println("Hash "+hashedpwd+" found, its password is: "+testpwd);
+                    System.out.print("Hash "+hashedpwd+" found, its password is: "+testpwd);
+                    if(i < 3000){
+                        System.out.println(". RockYou position: "+(i+1));
+                    }
+                    else System.out.println();
                     hashes.remove(hashedpwd);
                 }
             }
@@ -437,13 +441,6 @@ public class Main {
         }
         long endTime = System.currentTimeMillis();
         System.out.println("Finished. (took "+((float)(endTime-startTime))/1000+" seconds)");
-        /*if(!hashes.isEmpty()){
-            System.out.println("Some hashes were not found:");
-            for (int j = 0; j < hashes.size(); j++) {
-                System.out.println(hashes.get(j));
-            }
-        }
-        else System.out.println("All hashes were found");*/
         System.out.println("All hashes were found");
     }
 
